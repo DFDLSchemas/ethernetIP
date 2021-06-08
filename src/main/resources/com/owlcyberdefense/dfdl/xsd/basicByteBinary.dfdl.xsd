@@ -44,7 +44,10 @@ conventions useful for describing things like IP packets.
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
            xmlns:fn="http://www.w3.org/2005/xpath-functions"
-           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext">
+           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+           xmlns:b="urn:basicBinary"
+           xmlns:tns="urn:basicBinary"
+           targetNamespace="urn:basicBinary">
 
   <xs:annotation>
     <xs:appinfo source="http://www.ogf.org/dfdl/">
@@ -84,24 +87,36 @@ conventions useful for describing things like IP packets.
                      textStringJustification="left" textStringPadCharacter="%SP;"
                      textTrimKind="none" textZonedSignStyle="asciiStandard" trailingSkip="0"
                      truncateSpecifiedLengthString="no" useNilForDefault="no" utf16Width="fixed"
-                     bitOrder="mostSignificantBitFirst"/>
+                     bitOrder="mostSignificantBitFirst"
+                     byteOrder="bigEndian"
+                   />
       </dfdl:defineFormat>
 
-      <dfdl:format ref="basicByteBinary"/>
+      <dfdl:format ref="b:basicByteBinary"/>
 
     </xs:appinfo>
   </xs:annotation>
 
-  <!-- type bit is always bigEndian -->
   <xs:simpleType name="bit"
                  dfdl:lengthKind="explicit"
-                 dfdl:lengthUnits="bits"
-                 dfdl:byteOrder="bigEndian">
+                 dfdl:lengthUnits="bits">
     <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
 
   <xs:simpleType name="hexByte" dfdl:lengthKind="explicit" dfdl:lengthUnits="bytes">
     <xs:restriction base="xs:hexBinary" />
+  </xs:simpleType>
+
+  <xs:simpleType name="uint16" dfdl:lengthKind="explicit" dfdl:length="16">
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="uint32" dfdl:lengthKind="explicit" dfdl:length="32">
+    <xs:restriction base="xs:unsignedInt"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="int32" dfdl:lengthKind="explicit" dfdl:length="4" dfdl:lengthUnits="bytes">
+    <xs:restriction base="xs:int"/>
   </xs:simpleType>
 
 </xs:schema>

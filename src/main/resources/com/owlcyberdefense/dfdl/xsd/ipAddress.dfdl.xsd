@@ -43,12 +43,12 @@ SOFTWARE.
            xmlns:tns="urn:ipAddress"
            targetNamespace="urn:ipAddress">
 
-  <xs:import namespace="urn:basicBinary" schemaLocation="binaryDynamicByteOrder.dfdl.xsd"/>
+  <xs:import namespace="urn:basicBinary" schemaLocation="basicByteBinary.dfdl.xsd"/>
 
   <xs:annotation>
     <xs:appinfo source="http://www.ogf.org/dfdl/">
 
-      <dfdl:format ref="b:binaryDynamicByteOrder"/>
+      <dfdl:format ref="b:basicByteBinary"/>
 
     </xs:appinfo>
   </xs:annotation>

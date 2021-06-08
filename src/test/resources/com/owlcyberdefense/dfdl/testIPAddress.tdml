@@ -13,23 +13,16 @@
 
   <tdml:defineSchema name="s1" elementFormDefault="unqualified">
 
-    <xs:import namespace="urn:basicBinary" schemaLocation="com/owlcyberdefense/dfdl/xsd/binaryDynamicByteOrder.dfdl.xsd"/>
+    <xs:import namespace="urn:basicBinary" schemaLocation="com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
 
     <xs:import namespace="urn:ipAddress"
                 schemaLocation="com/owlcyberdefense/dfdl/xsd/ipAddress.dfdl.xsd"/>
 
-    <dfdl:format ref="b:binaryDynamicByteOrder"/>
+    <dfdl:format ref="b:basicByteBinary"/>
 
     <xs:element name="root">
       <xs:complexType>
         <xs:sequence>
-          <xs:annotation><xs:appinfo source="http://www.ogf.org/dfdl/">
-            <dfdl:setVariable ref="b:ByteOrder">{ 'bigEndian' }</dfdl:setVariable>
-            <!--
-            <dfdl:newVariableInstance ref="ip:ipAddressElementToUnparse" defaultValue='{ IPSrc }'/>
-            <dfdl:newVariableInstance ref="ip:ipAddressFromParse"/>
-            -->
-          </xs:appinfo></xs:annotation>
           <xs:element name="IP" type="ip:IPAddress"/>
         </xs:sequence>
       </xs:complexType>

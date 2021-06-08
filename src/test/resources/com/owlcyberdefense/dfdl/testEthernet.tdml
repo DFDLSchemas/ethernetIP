@@ -13,21 +13,16 @@
 
   <tdml:defineSchema name="s1" elementFormDefault="unqualified">
 
-    <xs:import namespace="urn:basicBinary" schemaLocation="com/owlcyberdefense/dfdl/xsd/binaryDynamicByteOrder.dfdl.xsd"/>
+    <xs:import namespace="urn:basicBinary" schemaLocation="com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
 
     <xs:import namespace="urn:ethernet"
                schemaLocation="com/owlcyberdefense/dfdl/xsd/ethernetIP.dfdl.xsd"/>
 
-    <dfdl:format ref="b:binaryDynamicByteOrder"/>
+    <dfdl:format ref="b:basicByteBinary"/>
 
     <xs:element name="root">
       <xs:complexType>
         <xs:sequence>
-          <xs:sequence>
-            <xs:annotation><xs:appinfo source="http://www.ogf.org/dfdl/">
-              <dfdl:setVariable ref="b:ByteOrder">{ 'bigEndian' }</dfdl:setVariable>
-            </xs:appinfo></xs:annotation>
-          </xs:sequence>
           <xs:element name="Ethernet" type="eth:Ethernet"/>
         </xs:sequence>
       </xs:complexType>

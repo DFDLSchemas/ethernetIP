@@ -44,16 +44,22 @@ SOFTWARE.
            xmlns:tns="urn:ethernet"
            targetNamespace="urn:ethernet">
 
-  <xs:import namespace="urn:basicBinary" schemaLocation="binaryDynamicByteOrder.dfdl.xsd"/>
+  <xs:import namespace="urn:basicBinary" schemaLocation="basicByteBinary.dfdl.xsd"/>
   <xs:import namespace="urn:ipAddress" schemaLocation="ipAddress.dfdl.xsd"/>
 
   <xs:annotation>
     <xs:appinfo source="http://www.ogf.org/dfdl/">
 
-      <dfdl:format ref="b:binaryDynamicByteOrder"/>
+      <dfdl:format ref="b:basicByteBinary"/>
 
     </xs:appinfo>
   </xs:annotation>
+
+  <!--
+  This schema does not define any global elements.
+
+  This is because ethernet data is always contained in some other medium such as a PCAP file.
+  -->
 
   <xs:complexType name="Ethernet">
     <xs:sequence>
