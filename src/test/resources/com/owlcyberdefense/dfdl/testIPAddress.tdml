@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tdml:testSuite xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+                xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
+                xmlns:tdml="http://www.ibm.com/xmlns/dfdl/testData"
+                xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+                xmlns:b="urn:basicBinary"
+                xmlns:ip="urn:ipAddress"
+                xmlns:ex="http://example.com"
+                defaultRoundTrip="true">
+
+
+  <tdml:defineSchema name="s1" elementFormDefault="unqualified">
+
+    <xs:import namespace="urn:basicBinary" schemaLocation="com/owlcyberdefense/dfdl/xsd/binaryDynamicByteOrder.dfdl.xsd"/>
+
+    <xs:import namespace="urn:ipAddress"
+                schemaLocation="com/owlcyberdefense/dfdl/xsd/ipAddress.dfdl.xsd"/>
+
+    <dfdl:format ref="b:binaryDynamicByteOrder"/>
+
+    <xs:element name="root">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:annotation><xs:appinfo source="http://www.ogf.org/dfdl/">
+            <dfdl:setVariable ref="b:ByteOrder">{ 'bigEndian' }</dfdl:setVariable>
+            <!--
+            <dfdl:newVariableInstance ref="ip:ipAddressElementToUnparse" defaultValue='{ IPSrc }'/>
+            <dfdl:newVariableInstance ref="ip:ipAddressFromParse"/>
+            -->
+          </xs:appinfo></xs:annotation>
+          <xs:element name="IP" type="ip:IPAddress"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+  </tdml:defineSchema>
+
+  <tdml:parserTestCase name="ipAddress1" root="root"
+                       model="s1">
+    <tdml:document>
+      <tdml:documentPart type="byte">01020304</tdml:documentPart>
+    </tdml:document>
+    <tdml:infoset>
+      <tdml:dfdlInfoset>
+        <ex:root><IP><value>1.2.3.4</value></IP></ex:root>
+      </tdml:dfdlInfoset>
+    </tdml:infoset>
+  </tdml:parserTestCase>
+
+</tdml:testSuite>
