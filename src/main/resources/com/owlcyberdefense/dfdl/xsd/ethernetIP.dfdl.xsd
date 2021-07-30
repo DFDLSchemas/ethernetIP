@@ -83,17 +83,90 @@ SOFTWARE.
     </xs:choice>
   </xs:complexType>
 
+
   <xs:complexType name="IPv4">
     <xs:sequence>
       <xs:element name='IPv4Header'>
         <xs:complexType>
-          <xs:sequence>
-            <xs:element name="Version" type="b:bit" dfdl:length="4" />
-            <xs:element name="IHL" type="b:bit" dfdl:length="4" />
-            <xs:element name="DSCP" type="b:bit" dfdl:length="6" />
-            <xs:element name="ECN" type="b:bit" dfdl:length="2" />
-            <xs:element name="Length" type="b:bit" dfdl:length="16"
-                        dfdl:outputValueCalc="{
+          <!--
+          Modified with proposed checksum computation via layer transforms
+
+          The xmlns:checksum prefix declaration would probably go on the xs:schema element more normally.
+          It is just here to show all the required things in this one location of the file.
+          -->
+          <xs:sequence xmlns:chksum="urn:com.owlcyberdefense.ipv4checksum">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <!--
+                The checksum field in an ipV4 actually lives in the middle of the
+                data that it is a checksum of.
+
+                That is, some of the 16-bit words going into the checksum are before
+                the checksum itself. We call this "Part 1" of the data.
+
+                Other of the 16-bit words going into the checksum appear after the
+                checksum itself. We call this "Part 2" of the data.
+
+                So there are two layer transform calculations corresponding to
+                these two parts.
+
+                For parsing: the first part computes the partial checksum of
+                the first data part and places that into the checksumPart1Value
+                variable.
+
+                Then the second part combines that part1 value from the variable with
+                the remaining checksum from the part 2 data, and places the final
+                result into the checksumValue variable.
+
+                At parse time we must check that this computed checksum value, and the
+                actual value of the element in the infoset are equal.
+
+                We have an option to place the computed checksum in another element
+                and then have a schematron validation rule or just a DFDL assert (recoverable)
+                check that the checksum element and computed checksum are equal.
+
+                Below, that element is called "ComputedChecksum".
+
+                When Unparsing, the first part transform computes the partial checksum of
+                the part 1 data, placing the result of that into the checksumPart1Value
+                just as when parsing.
+
+                The second part transform computes the final checksum combining the checksumPart1Value
+                variable with the checksum computed from the part 2 data, placing the result into
+                checksumValue variable.
+
+                A dfdl:outputValueCalc puts this newly computed value into the checksum element.
+                Any prior value of the checksum element is discarded/overwritten with the new value.
+
+                -->
+                <dfdl:newVariableInstance ref="chksum:checksumPart1Value"/>
+                <dfdl:newVariableInstance ref="chksum:checksumValue"/>
+              </xs:appinfo>
+            </xs:annotation>
+
+            <xs:sequence dfdl:ref="chksum:checksumLayerPart1">
+              <!--
+              Within this sequence, the data is all included in Part 1 of the
+              ipV4 checksum calculation
+
+              On parsing, the checksum algorithm computes the partial checksum for
+              this first part of the data, placing the value into the
+              variable chksum:checksumPart1Value, which must have a new variable
+              instance in scope.
+
+              This checksum calculation knows exactly how big this data must be
+              and if the representation turned out to be a different length than this, it
+              will be a runtime SDE.
+
+              Everything from here to the end of this sequence is unmodified from
+              the original IPV4 schema it is based on.
+              -->
+              <xs:element name="Version" type="b:bit" dfdl:length="4"/>
+              <xs:element name="IHL" type="b:bit" dfdl:length="4"/>
+              <xs:element name="DSCP" type="b:bit" dfdl:length="6"/>
+              <xs:element name="ECN" type="b:bit" dfdl:length="2"/>
+              <xs:element name="Length" type="b:bit" dfdl:length="16"
+                          dfdl:outputValueCalc="{
                 if (fn:exists(../../TransportLayer))
                 then
                   (if (fn:exists(../../TransportLayer/UDP))
@@ -105,20 +178,76 @@ SOFTWARE.
                      then dfdl:valueLength(../../ICMPv4/EchoRequest/Payload, 'bytes') + 20 + 8
                      else dfdl:valueLength(../../ICMPv4/EchoReply/Payload, 'bytes') + 20 + 8
                 } "/>
-            <xs:element name="Identification" type="b:bit" dfdl:length="16" />
-            <xs:element name="Flags" type="b:bit" dfdl:length="3" />
-            <xs:element name="FragmentOffset" type="b:bit" dfdl:length="13" />
-            <xs:element name="TTL" type="b:bit" dfdl:length="8" />
-            <xs:element name="Protocol" type="b:bit" dfdl:length="8"
-                        dfdl:outputValueCalc="{
+              <xs:element name="Identification" type="b:bit" dfdl:length="16"/>
+              <xs:element name="Flags" type="b:bit" dfdl:length="3"/>
+              <xs:element name="FragmentOffset" type="b:bit" dfdl:length="13"/>
+              <xs:element name="TTL" type="b:bit" dfdl:length="8"/>
+              <xs:element name="Protocol" type="b:bit" dfdl:length="8"
+                          dfdl:outputValueCalc="{
                 if (fn:exists(../../ICMPv4)) then 1
                 else if (fn:exists(../../TransportLayer/TCP)) then 6
                 else if (fn:exists(../../TransportLayer/UDP)) then 17
                 else -1 }"/>
-            <xs:element name="Checksum" type="b:bit" dfdl:length="16" />
-            <xs:element name="IPSrc" type="ip:IPAddress"/>
-            <xs:element name="IPDest" type="ip:IPAddress"/>
+            </xs:sequence>
+            <!--
+            Now the checksum element itself.
+
+            When unparsing: This is computed via a forward reference to the
+            checksum computation result in the
+            checksumValue variable, which is computed by the checksumLayerPart2 transform.
+            -->
+            <xs:element name="Checksum" type="chksum:checksumType"
+                        dfdl:outputValueCalc='{ $chksum:checksumValue }'/>
+            <!--
+            Now the part 2 layer transform is computed. This combined the result from
+            the part 1 layer transform (from the checksumPart1Value variable) with the
+            remaining checksum computed from the sequence content.
+
+            This checksum calculation knows exactly how big this data must be
+            and if the representation turned out to be a different length than this, it
+            will be a runtime SDE.
+
+            The result is placed in the checksumValue variable.
+            -->
+            <xs:sequence dfdl:ref="chksum:checksumLayerPart2">
+              <xs:element name="IPSrc" type="ip:IPAddress"/>
+              <xs:element name="IPDest" type="ip:IPAddress"/>
+            </xs:sequence>
+            <!--
+            We want the schema author to have all options on what to do if the
+            checksum is incorrect when parsing. Hence, we just put the computed value
+            into this element.
+            -->
+            <xs:element name="ComputedChecksum" type="chksum:checksumType"
+                        dfdl:inputValueCalc='{ $chksum:checksumValue }'/>
+            <!--
+            One recommendation is to treat incorrect checksum values as a validation
+            error. This preserves the ability to use the schema forensically to examine
+            data with incorrect checksums.
+
+            This uses a DFDL recoverable error assertion to report that the
+            checksum is incorrect. A recoverable error assert is not technically
+            a validation error, but behaves similarly in that it does not prevent the
+            parse from completing. It is essentially a warning about the data.
+
+            A schematron check would accomplish much the same thing, with the
+            advantage that the error would be reported as an "official" validation error.
+            -->
+            <xs:sequence>
+              <xs:annotation>
+                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                  <dfdl:assert
+                    failureType="recoverableError"
+                    message="Incorrect checksum."
+                    test='{ Checksum eq ComputedChecksum }'
+                  />
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:sequence>
           </xs:sequence>
+          <!--
+          That's the end of changes for the checksum calculation.
+          -->
         </xs:complexType>
       </xs:element>
       <xs:element name="Protocol" type="xs:unsignedInt" dfdl:inputValueCalc="{ xs:unsignedInt(../IPv4Header/Protocol) }" />

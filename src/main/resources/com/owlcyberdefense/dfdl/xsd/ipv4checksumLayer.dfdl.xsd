@@ -1,0 +1,61 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+           xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
+           xmlns:fn="http://www.w3.org/2005/xpath-functions"
+           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+           xmlns:tns="urn:com.owlcyberdefense.ipv4checksum">
+
+  <xs:annotation>
+    <xs:documentation>
+      Variables for the two layer transforms used for IPV4 checksum calculation.
+
+      The first layer transform, named "checksumLayerPart1", computes the partial
+      checksum of the first part of the data, per the checksum algorithm described
+      in IETF RFC791.
+
+      The data has a well-known fixed layer length. Hence, layerLengthKind is 'implicit'.
+
+      (TBD: if the data doesn't match this expected fixed length, issue SDE?)
+
+      This partial checksum is written into the checksumPart1Value variable, as a
+      means of communicating it to the second layer transform for the remainder of the
+      data.
+
+      This 2-part computation is necessary because in IPv4 packets, the checksum
+      value actually lives in the middle of the data contributing to the checksum value.
+    </xs:documentation>
+    <xs:appinfo source="http://www.ogf.org/dfdl/">
+      <dfdl:defineVariable name="checksumPart1Value" type="xs:unsignedShort"/>
+      <dfdl:defineFormat name="checksumLayerPart1">
+        <dfdl:format layerTransform="checksumLayerPart1" layerLengthKind="implicit"/>
+      </dfdl:defineFormat>
+    </xs:appinfo>
+  </xs:annotation>
+
+  <xs:annotation>
+    <xs:documentation>
+      The second layer transform named "checksumLayerPart2", combines the result
+      from the first part (from its output variable) with the checksum of the
+      remaining data resulting in a final checksum value.
+
+      This layer transform also
+      has a well-known fixed layer length, so layerLengthKind is 'implicit'.
+
+      (TBD: if the data doesn't match this expected fixed length, issue SDE?)
+
+      The final checksum value is written to the checksumValue variable.
+    </xs:documentation>
+    <xs:appinfo source="http://www.ogf.org/dfdl/">
+      <dfdl:defineVariable name="checksumValue" type="xs:unsignedShort"/>
+      <dfdl:defineFormat name="checksumLayerPart2">
+        <dfdl:format layerTransform="checksumLayerPart2" layerLengthKind="implicit"/>
+      </dfdl:defineFormat>
+    </xs:appinfo>
+  </xs:annotation>
+
+  <xs:simpleType name="checksumType"
+    dfdl:lengthKind="explicit" dfdl:length="16">
+    <xs:restriction base="xs:unsignedShort"/>
+  </xs:simpleType>
+
+</xs:schema>
