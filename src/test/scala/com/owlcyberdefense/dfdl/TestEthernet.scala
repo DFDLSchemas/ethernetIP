@@ -17,6 +17,8 @@ class TestEthernet {
   import TestEthernet._
 
   @Test def test_icmp1(): Unit = { runner.runOneTest("icmp1") }
+  @Test def test_icmp_array(): Unit = { runner.runOneTest("icmp_array") }
+
   @Test def test_icmp1u(): Unit = { runner.runOneTest("icmp1u") }
   @Test def test_icmp2_bad_checksum(): Unit = { runner.runOneTest("icmp2_bad_checksum") }
 
