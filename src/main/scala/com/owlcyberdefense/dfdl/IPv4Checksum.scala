@@ -20,7 +20,8 @@ package com.owlcyberdefense.dfdl
 import org.apache.daffodil.exceptions.Assert
 import org.apache.daffodil.layers.ByteBufferExplicitLengthLayerTransform
 import org.apache.daffodil.layers.LayerRuntimeInfo
-import org.apache.daffodil.layers.VariableHandle
+import org.apache.daffodil.processors.ParseOrUnparseState
+import org.apache.daffodil.processors.VariableRuntimeData
 import passera.unsigned.UShort
 
 import java.nio.ByteBuffer
@@ -34,12 +35,12 @@ import java.nio.ByteBuffer
 final class IPv4Checksum(
   name: String,
   layerRuntimeInfo: LayerRuntimeInfo,
-  outputVar: VariableHandle)
+  outputVar: VariableRuntimeData)
 extends ByteBufferExplicitLengthLayerTransform[Int](
   layerRuntimeInfo,
   name,
   inputVars = Seq(),
-  outputVar: VariableHandle) {
+  outputVar: VariableRuntimeData) {
 
   /**
    * This layer is always exactly 20 bytes long.
@@ -48,7 +49,7 @@ extends ByteBufferExplicitLengthLayerTransform[Int](
 
   private def chksumShortIndex = 5
 
-  override protected def compute(isUnparse: Boolean, inputs: Seq[Any], byteBuffer: ByteBuffer) = {
+  override protected def compute(state: ParseOrUnparseState, isUnparse: Boolean, inputs: Seq[Any], byteBuffer: ByteBuffer) = {
     val shortBuf = byteBuffer.asShortBuffer()
 
     var i = 0

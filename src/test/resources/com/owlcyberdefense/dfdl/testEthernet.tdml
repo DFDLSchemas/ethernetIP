@@ -28,6 +28,14 @@
       </xs:complexType>
     </xs:element>
 
+    <xs:element name="array">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Ethernet" type="eth:Ethernet" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
   </tdml:defineSchema>
 
   <!--
@@ -146,6 +154,106 @@
       </tdml:dfdlInfoset>
     </tdml:infoset>
   </tdml:parserTestCase>
+
+  <!--
+Unparse two IPv4 ICMP packets in a row.
+-->
+  <tdml:unparserTestCase name="icmp_array" root="array" model="s1" roundTrip="none">
+    <tdml:document>
+      <tdml:documentPart type="byte">
+        0050 56e0 1449 000c
+        2934 0bde 0800 4500 003c d743 0000 8001
+        2b73 c0a8 9e8b ae89 2a4d 0800 2a5c 0200
+        2100 6162 6364 6566 6768 696a 6b6c 6d6e
+        6f70 7172 7374 7576 7761 6263 6465 6667
+        6869
+        0050 56e0 1449 000c
+        2934 0bde 0800 4500 003c d743 0000 8001
+        2b73 c0a8 9e8b ae89 2a4d 0800 2a5c 0200
+        2100 6162 6364 6566 6768 696a 6b6c 6d6e
+        6f70 7172 7374 7576 7761 6263 6465 6667
+        6869
+      </tdml:documentPart>
+    </tdml:document>
+    <tdml:infoset>
+      <tdml:dfdlInfoset>
+        <ex:array>
+          <Ethernet>
+            <MACDest>005056E01449</MACDest>
+            <MACSrc>000C29340BDE</MACSrc>
+            <Ethertype>2048</Ethertype>
+            <NetworkLayer>
+              <IPv4>
+                <IPv4Header>
+                  <Version>4</Version>
+                  <IHL>5</IHL>
+                  <DSCP>0</DSCP>
+                  <ECN>0</ECN>
+                  <Length>60</Length>
+                  <Identification>55107</Identification>
+                  <Flags>0</Flags>
+                  <FragmentOffset>0</FragmentOffset>
+                  <TTL>128</TTL>
+                  <Protocol>1</Protocol>
+                  <Checksum>11123</Checksum> <!-- the stored checksum found by the parse -->
+                  <IPSrc><value>192.168.158.139</value></IPSrc>
+                  <IPDest><value>174.137.42.77</value></IPDest>
+                  <ComputedChecksum>11123</ComputedChecksum> <!-- recomputed from the data on parse -->
+                </IPv4Header>
+                <Protocol>1</Protocol>
+                <ICMPv4>
+                  <Type>8</Type>
+                  <Code>0</Code>
+                  <Checksum>10844</Checksum>
+                  <EchoRequest>
+                    <Identifier>512</Identifier>
+                    <SequenceNumber>8448</SequenceNumber>
+                    <Payload>6162636465666768696A6B6C6D6E6F7071727374757677616263646566676869</Payload>
+                  </EchoRequest>
+                </ICMPv4>
+              </IPv4>
+            </NetworkLayer>
+          </Ethernet>
+          <Ethernet>
+            <MACDest>005056E01449</MACDest>
+            <MACSrc>000C29340BDE</MACSrc>
+            <Ethertype>2048</Ethertype>
+            <NetworkLayer>
+              <IPv4>
+                <IPv4Header>
+                  <Version>4</Version>
+                  <IHL>5</IHL>
+                  <DSCP>0</DSCP>
+                  <ECN>0</ECN>
+                  <Length>60</Length>
+                  <Identification>55107</Identification>
+                  <Flags>0</Flags>
+                  <FragmentOffset>0</FragmentOffset>
+                  <TTL>128</TTL>
+                  <Protocol>1</Protocol>
+                  <Checksum>11123</Checksum> <!-- the stored checksum found by the parse -->
+                  <IPSrc><value>192.168.158.139</value></IPSrc>
+                  <IPDest><value>174.137.42.77</value></IPDest>
+                  <ComputedChecksum>11123</ComputedChecksum> <!-- recomputed from the data on parse -->
+                </IPv4Header>
+                <Protocol>1</Protocol>
+                <ICMPv4>
+                  <Type>8</Type>
+                  <Code>0</Code>
+                  <Checksum>10844</Checksum>
+                  <EchoRequest>
+                    <Identifier>512</Identifier>
+                    <SequenceNumber>8448</SequenceNumber>
+                    <Payload>6162636465666768696A6B6C6D6E6F7071727374757677616263646566676869</Payload>
+                  </EchoRequest>
+                </ICMPv4>
+              </IPv4>
+            </NetworkLayer>
+          </Ethernet>
+        </ex:array>
+      </tdml:dfdlInfoset>
+    </tdml:infoset>
+  </tdml:unparserTestCase>
 
   <!--
   Separate parser test verifies stored checksum value is incorrect.
