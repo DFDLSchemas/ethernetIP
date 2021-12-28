@@ -68,11 +68,14 @@ extends ByteBufferExplicitLengthLayerTransform[Int](
     //
     // now combine the carry bits in the most significant 16 bits into the lower 16 bits.
     //
-    val checksumLow = chksum & 0xFFFF
-    val checksumHigh = chksum >>> 16
-    val checksumTotal: Int = checksumLow + checksumHigh
-    Assert.invariant(checksumTotal <= 0xFFFF && checksumTotal >= 0)
-    val checksumTotalShort = UShort(checksumTotal.toShort)
+    do {
+      val checksumLow = chksum & 0xFFFF
+      val checksumHigh = chksum >>> 16
+      chksum = checksumLow + checksumHigh
+      // this can carry again, so we must repeat if it has.
+    } while (chksum > 0xFFFF)
+    Assert.invariant(chksum <= 0xFFFF && chksum >= 0)
+    val checksumTotalShort = UShort(chksum.toShort)
     val checksum = checksumTotalShort.toInt
     //
     // take ones complement to get the final checksum
