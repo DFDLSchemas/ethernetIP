@@ -17,14 +17,14 @@
 
 package com.owlcyberdefense.dfdl
 
-import org.apache.daffodil.dpath.NodeInfo.PrimType
-import org.apache.daffodil.layers.LayerCompileInfo
-import org.apache.daffodil.layers.LayerCompiler
-import org.apache.daffodil.layers.LayerRuntimeInfo
-import org.apache.daffodil.layers.LayerTransformerFactory
-import org.apache.daffodil.processors.VariableRuntimeData
-import org.apache.daffodil.schema.annotation.props.gen.LayerLengthKind
-import org.apache.daffodil.schema.annotation.props.gen.LayerLengthUnits
+import org.apache.daffodil.runtime1.dpath.NodeInfo.PrimType
+import org.apache.daffodil.runtime1.layers.LayerCompileInfo
+import org.apache.daffodil.runtime1.layers.LayerCompiler
+import org.apache.daffodil.runtime1.layers.LayerRuntimeInfo
+import org.apache.daffodil.runtime1.layers.LayerTransformerFactory
+import org.apache.daffodil.runtime1.processors.VariableRuntimeData
+import org.apache.daffodil.lib.schema.annotation.props.gen.LayerLengthKind
+import org.apache.daffodil.lib.schema.annotation.props.gen.LayerLengthUnits
 
 final class IPv4ChecksumLayerCompiler
   extends LayerCompiler("IPv4Checksum") {
