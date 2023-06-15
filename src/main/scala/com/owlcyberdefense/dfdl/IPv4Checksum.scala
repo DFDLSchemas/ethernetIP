@@ -17,11 +17,11 @@
 
 package com.owlcyberdefense.dfdl
 
-import org.apache.daffodil.exceptions.Assert
-import org.apache.daffodil.layers.ByteBufferExplicitLengthLayerTransform
-import org.apache.daffodil.layers.LayerRuntimeInfo
-import org.apache.daffodil.processors.ParseOrUnparseState
-import org.apache.daffodil.processors.VariableRuntimeData
+import org.apache.daffodil.lib.exceptions.Assert
+import org.apache.daffodil.runtime1.layers.ByteBufferExplicitLengthLayerTransform
+import org.apache.daffodil.runtime1.layers.LayerRuntimeInfo
+import org.apache.daffodil.runtime1.processors.ParseOrUnparseState
+import org.apache.daffodil.runtime1.processors.VariableRuntimeData
 import passera.unsigned.UShort
 
 import java.nio.ByteBuffer
