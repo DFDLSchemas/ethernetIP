@@ -314,9 +314,9 @@ Unparse two IPv4 ICMP packets in a row.
         </ex:root>
       </tdml:dfdlInfoset>
     </tdml:infoset>
-    <tdml:warnings>
-      <tdml:warning>Assertion Incorrect checksum</tdml:warning>
-    </tdml:warnings>
+    <tdml:validationErrors>
+      <tdml:error>Incorrect checksum</tdml:error>
+    </tdml:validationErrors>
   </tdml:parserTestCase>
 
   <tdml:parserTestCase name="dns1" root="root" model="s1">
