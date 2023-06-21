@@ -4,7 +4,7 @@ organization := "com.owlcyberdefense"
 
 version := "1.2.0"
 
-scalaVersion := "2.12.15"
+scalaVersion := "2.12.18"
  
 libraryDependencies ++= Seq(
   "org.apache.daffodil" %% "daffodil-lib" % "3.5.0",
