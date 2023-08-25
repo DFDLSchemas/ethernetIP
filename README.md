@@ -19,3 +19,19 @@ This division into two schemas is intended to illustrate how to structure DFDL s
 schemas that are combined together to form a complete format, and which involve layering where a 
 container/envelope/header structure, contains a payload structure. PCAP is an container format for Ethernet/IP packets. 
 
+## Release Notes
+
+### 1.3.0
+Updated for Daffodil version 3.5.0
+
+### 1.2.0
+Updated for Daffodil version 3.4.0
+
+This schema is used as a component schema by the PCAP DFDL schema. 
+Hence, a Daffodil 3.4.0 version of this schema is needed.
+
+### 1.1.0
+As of version 1.1.0 of this DFDL schema, it also uses a Daffodil-specific DFDL extension called layers in order
+  to compute IPv4 checksums as part of parsing and unparsing.
+
+Works with Daffoddil 3.2.1 
