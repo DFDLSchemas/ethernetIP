@@ -19,6 +19,9 @@ PCAP is a container format for Ethernet/IP packets.
 
 ## Release Notes
 
+### 1.3.0
+Updated for Daffodil version 3.5.0
+
 ### 1.2.0
 Updated for Daffodil version 3.4.0
 
