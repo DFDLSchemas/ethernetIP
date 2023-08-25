@@ -19,8 +19,17 @@ PCAP is an container format for Ethernet/IP packets.
 
 ## Release Notes
 
+### 1.3.0
+Updated for Daffodil 3.5.0
+
+Note that due to package name changes in Daffodil 3.5.0, this
+version will not work with Daffodil versions earlier than 3.5.0
+
 ### 1.2.0
 Updated for Daffodil version 3.4.0
+
+This schema is used as a component schema by the PCAP DFDL schema. 
+Hence, a Daffodil 3.4.0 version of this schema is needed.
 
 ### 1.1.0
 As of version 1.1.0 of this DFDL schema, it also uses a Daffodil-specific DFDL extension called layers in order
