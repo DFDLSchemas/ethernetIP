@@ -20,7 +20,7 @@
            xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
            xmlns:fn="http://www.w3.org/2005/xpath-functions"
            xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-           xmlns:tns="urn:com.owlcyberdefense.dfdl.IPv4Checksum"
+           xmlns:ipv4="urn:com.owlcyberdefense.dfdl.IPv4Checksum"
            targetNamespace="urn:com.owlcyberdefense.dfdl.IPv4Checksum">
 
   <xs:annotation>
@@ -29,8 +29,6 @@
 
       Per the checksum algorithm described in IETF RFC791.
 
-      The data has a well-known fixed layer length. Hence, layerLengthKind is 'implicit'.
-
       If the data doesn't match this expected fixed length, issue PE/UE.
 
       This checksum is written into the result variable.
@@ -38,7 +36,7 @@
     <xs:appinfo source="http://www.ogf.org/dfdl/">
       <dfdl:defineVariable name="IPv4Checksum" type="xs:unsignedShort"/>
       <dfdl:defineFormat name="IPv4ChecksumLayer">
-        <dfdl:format dfdlx:layerTransform='IPv4Checksum' dfdlx:layerLengthKind="implicit"/>
+        <dfdl:format dfdlx:layer='ipv4:IPv4Checksum' />
       </dfdl:defineFormat>
     </xs:appinfo>
   </xs:annotation>

@@ -13,10 +13,10 @@
 
   <tdml:defineSchema name="s1" elementFormDefault="unqualified">
 
-    <xs:import namespace="urn:basicBinary" schemaLocation="com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
+    <xs:import namespace="urn:basicBinary" schemaLocation="/com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
 
     <xs:import namespace="urn:ethernet"
-               schemaLocation="com/owlcyberdefense/dfdl/xsd/ethernetIP.dfdl.xsd"/>
+               schemaLocation="/com/owlcyberdefense/dfdl/xsd/ethernetIP.dfdl.xsd"/>
 
     <dfdl:format ref="b:basicByteBinary"/>
 
