@@ -8,7 +8,7 @@ object TestEthernet {
   lazy val runner = Runner("/com/owlcyberdefense/dfdl/", "testEthernet.tdml")
 
   @AfterClass def shutDown(): Unit = {
-    runner.reset
+    runner.reset()
   }
 }
 
