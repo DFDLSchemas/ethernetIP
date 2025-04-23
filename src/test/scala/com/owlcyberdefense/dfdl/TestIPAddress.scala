@@ -8,7 +8,7 @@ object TestIPAddress {
   lazy val runner = Runner("/com/owlcyberdefense/dfdl/", "testIPAddress.tdml")
 
   @AfterClass def shutDown(): Unit = {
-    runner.reset
+    runner.reset()
   }
 }
 
