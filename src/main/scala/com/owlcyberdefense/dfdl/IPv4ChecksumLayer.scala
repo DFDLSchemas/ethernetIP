@@ -18,7 +18,7 @@
 package com.owlcyberdefense.dfdl
 
 import org.apache.daffodil.lib.exceptions.Assert
-import org.apache.daffodil.runtime1.layers.api.ChecksumLayer
+import org.apache.daffodil.api.layers.ChecksumLayer
 import passera.unsigned.UShort
 
 import java.nio.ByteBuffer
