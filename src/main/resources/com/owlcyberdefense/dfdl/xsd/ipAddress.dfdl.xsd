@@ -33,29 +33,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS WITH THE
 SOFTWARE.
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
-           xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
-           xmlns:fn="http://www.w3.org/2005/xpath-functions"
-           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-           xmlns:b="urn:basicBinary"
-           xmlns:ip="urn:ipAddress"
-           xmlns:tns="urn:ipAddress"
-           targetNamespace="urn:ipAddress">
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+        xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
+        xmlns:fn="http://www.w3.org/2005/xpath-functions"
+        xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+        xmlns:bb="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb"
+        xmlns:ipa="urn:owlcyberdefense.com:schema:dfdl:ipAddress:ipa"
+        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:ipAddress:ipa">
 
-  <xs:import namespace="urn:basicBinary" schemaLocation="basicByteBinary.dfdl.xsd"/>
+  <import namespace="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb" schemaLocation="basicByteBinary.dfdl.xsd"/>
 
-  <xs:annotation>
-    <xs:appinfo source="http://www.ogf.org/dfdl/">
+  <annotation>
+    <appinfo source="http://www.ogf.org/dfdl/">
 
-      <dfdl:format ref="b:basicByteBinary"/>
+      <dfdl:format ref="bb:basicByteBinary"/>
 
-    </xs:appinfo>
-  </xs:annotation>
+    </appinfo>
+  </annotation>
 
-  <xs:complexType name="IPAddress">
-    <xs:annotation>
-      <xs:documentation><![CDATA[
+  <complexType name="IPAddress">
+    <annotation>
+      <documentation><![CDATA[
 
       The underlying representation of this group is four single-byte unsigned binary integers.
 
@@ -86,84 +86,84 @@ SOFTWARE.
       people can use it to deal with IPv4 addresses anywhere. However, it is hard to
       ascertain the correctness and security/safety of this DFDL schema by inspection alone.
 
-      ]]></xs:documentation>
-    </xs:annotation>
-    <xs:sequence>
-      <xs:sequence dfdl:hiddenGroupRef="tns:h_IPAddressGroup"/>
-      <xs:element name="value" type="xs:string"
+      ]]></documentation>
+    </annotation>
+    <sequence>
+      <sequence dfdl:hiddenGroupRef="ipa:h_IPAddressGroup"/>
+      <element name="value" type="xs:string"
                   dfdl:inputValueCalc="{ fn:concat(../Byte1, '.', ../Byte2, '.', ../Byte3, '.', ../Byte4) }"/>
-    </xs:sequence>
-  </xs:complexType>
+    </sequence>
+  </complexType>
 
-  <xs:annotation>
-    <xs:appinfo source="http://www.ogf.org/dfdl/">
+  <annotation>
+    <appinfo source="http://www.ogf.org/dfdl/">
 
       <!-- Internally used by h_IPAddressGroup -->
       <dfdl:defineVariable name="remainingDottedAddr" type="xs:string" dfdlx:direction="unparseOnly"/>
       <dfdl:defineVariable name="priorRemainingDottedAddr" type="xs:string" dfdlx:direction="unparseOnly"/>
 
-    </xs:appinfo>
-  </xs:annotation>
+    </appinfo>
+  </annotation>
 
-  <xs:group name="h_IPAddressGroup">
-    <xs:sequence>
-      <xs:annotation>
-        <xs:appinfo source="http://www.ogf.org/dfdl/">
-          <dfdl:newVariableInstance ref="tns:priorRemainingDottedAddr"
+  <group name="h_IPAddressGroup">
+    <sequence>
+      <annotation>
+        <appinfo source="http://www.ogf.org/dfdl/">
+          <dfdl:newVariableInstance ref="ipa:priorRemainingDottedAddr"
                                     defaultValue='{ ./value }'/><!-- example 1.2.3.4 -->
-          <dfdl:newVariableInstance ref="tns:remainingDottedAddr"
-                                    defaultValue='{ $tns:priorRemainingDottedAddr }'/><!-- example 1.2.3.4 -->
-        </xs:appinfo>
-      </xs:annotation>
-      <xs:element name="Byte1" type="xs:unsignedByte" dfdl:outputValueCalc="{
-          xs:unsignedByte(fn:substring-before($tns:remainingDottedAddr, '.'))
+          <dfdl:newVariableInstance ref="ipa:remainingDottedAddr"
+                                    defaultValue='{ $ipa:priorRemainingDottedAddr }'/><!-- example 1.2.3.4 -->
+        </appinfo>
+      </annotation>
+      <element name="Byte1" type="xs:unsignedByte" dfdl:outputValueCalc="{
+          xs:unsignedByte(fn:substring-before($ipa:remainingDottedAddr, '.'))
           }"/>
-      <xs:sequence>
-        <xs:annotation>
-          <xs:appinfo source="http://www.ogf.org/dfdl/">
+      <sequence>
+        <annotation>
+          <appinfo source="http://www.ogf.org/dfdl/">
             <dfdl:newVariableInstance
-              ref="tns:priorRemainingDottedAddr"
-              defaultValue='{ $tns:remainingDottedAddr }'/><!-- example 1.2.3.4 -->
+              ref="ipa:priorRemainingDottedAddr"
+              defaultValue='{ $ipa:remainingDottedAddr }'/><!-- example 1.2.3.4 -->
             <dfdl:newVariableInstance
-              ref="tns:remainingDottedAddr"
-              defaultValue='{ fn:substring-after($tns:priorRemainingDottedAddr, ".") }'/><!-- example 2.3.4 -->
-          </xs:appinfo>
-        </xs:annotation>
-        <xs:element name="Byte2" type="xs:unsignedByte" dfdl:outputValueCalc="{
-           xs:unsignedByte(fn:substring-before($tns:remainingDottedAddr, '.'))
+              ref="ipa:remainingDottedAddr"
+              defaultValue='{ fn:substring-after($ipa:priorRemainingDottedAddr, ".") }'/><!-- example 2.3.4 -->
+          </appinfo>
+        </annotation>
+        <element name="Byte2" type="xs:unsignedByte" dfdl:outputValueCalc="{
+           xs:unsignedByte(fn:substring-before($ipa:remainingDottedAddr, '.'))
            }"/>
-        <xs:sequence>
-          <xs:annotation>
-            <xs:appinfo source="http://www.ogf.org/dfdl/">
+        <sequence>
+          <annotation>
+            <appinfo source="http://www.ogf.org/dfdl/">
               <dfdl:newVariableInstance
-                ref="tns:priorRemainingDottedAddr"
-                defaultValue='{ $tns:remainingDottedAddr }'/><!-- example 2.3.4 -->
+                ref="ipa:priorRemainingDottedAddr"
+                defaultValue='{ $ipa:remainingDottedAddr }'/><!-- example 2.3.4 -->
               <dfdl:newVariableInstance
-                ref="tns:remainingDottedAddr"
-                defaultValue='{ fn:substring-after($tns:priorRemainingDottedAddr, ".") }'/><!-- example 3.4 -->
-            </xs:appinfo>
-          </xs:annotation>
-          <xs:element name="Byte3" type="xs:unsignedByte" dfdl:outputValueCalc="{
-              xs:unsignedByte(fn:substring-before($tns:remainingDottedAddr, '.'))
+                ref="ipa:remainingDottedAddr"
+                defaultValue='{ fn:substring-after($ipa:priorRemainingDottedAddr, ".") }'/><!-- example 3.4 -->
+            </appinfo>
+          </annotation>
+          <element name="Byte3" type="xs:unsignedByte" dfdl:outputValueCalc="{
+              xs:unsignedByte(fn:substring-before($ipa:remainingDottedAddr, '.'))
               }"/>
-          <xs:sequence>
-            <xs:annotation>
-              <xs:appinfo source="http://www.ogf.org/dfdl/">
+          <sequence>
+            <annotation>
+              <appinfo source="http://www.ogf.org/dfdl/">
                 <dfdl:newVariableInstance
-                  ref="tns:priorRemainingDottedAddr"
-                  defaultValue='{ $tns:remainingDottedAddr }'/><!-- example 3.4 -->
+                  ref="ipa:priorRemainingDottedAddr"
+                  defaultValue='{ $ipa:remainingDottedAddr }'/><!-- example 3.4 -->
                 <dfdl:newVariableInstance
-                  ref="tns:remainingDottedAddr"
-                  defaultValue='{ fn:substring-after($tns:priorRemainingDottedAddr, ".") }'/><!-- example 4 -->
-              </xs:appinfo>
-            </xs:annotation>
-            <xs:element name="Byte4" type="xs:unsignedByte" dfdl:outputValueCalc="{
-              xs:unsignedByte($tns:remainingDottedAddr)
+                  ref="ipa:remainingDottedAddr"
+                  defaultValue='{ fn:substring-after($ipa:priorRemainingDottedAddr, ".") }'/><!-- example 4 -->
+              </appinfo>
+            </annotation>
+            <element name="Byte4" type="xs:unsignedByte" dfdl:outputValueCalc="{
+              xs:unsignedByte($ipa:remainingDottedAddr)
               }"/>
-          </xs:sequence>
-        </xs:sequence>
-      </xs:sequence>
-    </xs:sequence>
-  </xs:group>
+          </sequence>
+        </sequence>
+      </sequence>
+    </sequence>
+  </group>
 
-</xs:schema>
+</schema>

@@ -1,45 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tdml:testSuite xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
-                xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
-                xmlns:tdml="http://www.ibm.com/xmlns/dfdl/testData"
-                xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-                xmlns:b="urn:basicBinary"
-                xmlns:ip="urn:ipAddress"
-                xmlns:ex="http://example.com"
-                defaultRoundTrip="true">
+<testSuite xmlns="http://www.ibm.com/xmlns/dfdl/testData"
+           xmlns:tdml="http://www.ibm.com/xmlns/dfdl/testData"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+           xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
+           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+           xmlns:bb="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb"
+           xmlns:ipa="urn:owlcyberdefense.com:schema:dfdl:ipAddress:ipa"
+           xmlns:ex="http://example.com"
+           defaultRoundTrip="true">
 
 
-  <tdml:defineSchema name="s1" elementFormDefault="unqualified">
+  <tdml:defineSchema name="s1" elementFormDefault="unqualified" useDefaultNamespace="false"
+                     xmlns="http://www.w3.org/2001/XMLSchema">
 
-    <xs:import namespace="urn:basicBinary" schemaLocation="com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
+    <import namespace="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb" schemaLocation="com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
 
-    <xs:import namespace="urn:ipAddress"
+    <import namespace="urn:owlcyberdefense.com:schema:dfdl:ipAddress:ipa"
                 schemaLocation="com/owlcyberdefense/dfdl/xsd/ipAddress.dfdl.xsd"/>
 
-    <dfdl:format ref="b:basicByteBinary"/>
+    <dfdl:format ref="bb:basicByteBinary"/>
 
-    <xs:element name="root">
-      <xs:complexType>
-        <xs:sequence>
-          <xs:element name="IP" type="ip:IPAddress"/>
-        </xs:sequence>
-      </xs:complexType>
-    </xs:element>
+    <element name="root">
+      <complexType>
+        <sequence>
+          <element name="IP" type="ipa:IPAddress"/>
+        </sequence>
+      </complexType>
+    </element>
 
   </tdml:defineSchema>
 
-  <tdml:parserTestCase name="ipAddress1" root="root"
+  <parserTestCase name="ipAddress1" root="root"
                        model="s1">
-    <tdml:document>
-      <tdml:documentPart type="byte">01020304</tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:root><IP><value>1.2.3.4</value></IP></ex:root>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-  </tdml:parserTestCase>
+    <document>
+      <documentPart type="byte">01020304</documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:root xmlns="">
+          <IP>
+            <value>1.2.3.4</value>
+          </IP>
+        </ex:root>
+      </dfdlInfoset>
+    </infoset>
+  </parserTestCase>
 
-</tdml:testSuite>
+</testSuite>

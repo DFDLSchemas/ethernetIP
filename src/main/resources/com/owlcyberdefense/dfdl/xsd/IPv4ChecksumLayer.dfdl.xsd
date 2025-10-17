@@ -15,16 +15,17 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
-           xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
-           xmlns:fn="http://www.w3.org/2005/xpath-functions"
-           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-           xmlns:ipv4="urn:com.owlcyberdefense.dfdl.IPv4Checksum"
-           targetNamespace="urn:com.owlcyberdefense.dfdl.IPv4Checksum">
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+        xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
+        xmlns:fn="http://www.w3.org/2005/xpath-functions"
+        xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+        xmlns:ipv4="urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4"
+        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4">
 
-  <xs:annotation>
-    <xs:documentation>
+  <annotation>
+    <documentation>
       Variable for the layer transform used for IPv4 checksum calculation.
 
       Per the checksum algorithm described in IETF RFC791.
@@ -32,18 +33,18 @@
       If the data doesn't match this expected fixed length, issue PE/UE.
 
       This checksum is written into the result variable.
-    </xs:documentation>
-    <xs:appinfo source="http://www.ogf.org/dfdl/">
+    </documentation>
+    <appinfo source="http://www.ogf.org/dfdl/">
       <dfdl:defineVariable name="IPv4Checksum" type="xs:unsignedShort"/>
       <dfdl:defineFormat name="IPv4ChecksumLayer">
         <dfdl:format dfdlx:layer='ipv4:IPv4Checksum' />
       </dfdl:defineFormat>
-    </xs:appinfo>
-  </xs:annotation>
+    </appinfo>
+  </annotation>
 
-  <xs:simpleType name="IPv4Checksum"
+  <simpleType name="IPv4Checksum"
     dfdl:lengthKind="explicit" dfdl:length="16" dfdl:lengthUnits="bits">
-    <xs:restriction base="xs:unsignedShort"/>
-  </xs:simpleType>
+    <restriction base="xs:unsignedShort"/>
+  </simpleType>
 
-</xs:schema>
+</schema>

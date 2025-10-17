@@ -21,6 +21,12 @@ container/envelope/header structure, contains a payload structure. PCAP is an co
 
 ## Release Notes
 
+### 1.4.2
+
+Conforms to current (2025-10-17) DFDL schema style guidance. 
+Many people use this DFDL schema as part of learning about DFDL, so it 
+needed to be updated to reflect known best practices.
+
 ### 1.4.1
 Updated for Daffodil version 4.0.0
 
