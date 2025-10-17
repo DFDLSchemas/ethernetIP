@@ -2,9 +2,9 @@ name := "dfdl-ethernetIP"
 
 organization := "com.owlcyberdefense"
 
-version := "1.4.0"
+version := "1.4.1"
 
-daffodilVersion := "3.8.0"
+daffodilVersion := "4.0.0"
 
 enablePlugins(DaffodilPlugin)
 
