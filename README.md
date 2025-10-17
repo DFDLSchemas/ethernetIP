@@ -21,6 +21,9 @@ container/envelope/header structure, contains a payload structure. PCAP is an co
 
 ## Release Notes
 
+### 1.4.1
+Updated for Daffodil version 4.0.0
+
 ### 1.4.0
 Updated for Daffodil version 3.8.0
 Uses Daffodil new layer API for IPv4 checksum
