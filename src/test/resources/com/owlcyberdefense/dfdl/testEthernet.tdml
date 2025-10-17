@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tdml:testSuite xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
-                xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
-                xmlns:tdml="http://www.ibm.com/xmlns/dfdl/testData"
-                xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-                xmlns:b="urn:basicBinary"
-                xmlns:eth="urn:ethernet"
-                xmlns:ex="http://example.com"
-                defaultRoundTrip="true">
+<testSuite xmlns="http://www.ibm.com/xmlns/dfdl/testData"
+           xmlns:tdml="http://www.ibm.com/xmlns/dfdl/testData"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+           xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
+           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+           xmlns:bb="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb"
+           xmlns:eth="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
+           xmlns:ex="http://example.com"
+           defaultRoundTrip="true">
 
 
-  <tdml:defineSchema name="s1" elementFormDefault="unqualified">
+  <tdml:defineSchema name="s1" elementFormDefault="unqualified" useDefaultNamespace="false"
+                     xmlns="http://www.w3.org/2001/XMLSchema">
 
-    <xs:import namespace="urn:basicBinary" schemaLocation="/com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
+    <import namespace="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb" schemaLocation="/com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
 
-    <xs:import namespace="urn:ethernet"
+    <import namespace="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
                schemaLocation="/com/owlcyberdefense/dfdl/xsd/ethernetIP.dfdl.xsd"/>
 
-    <dfdl:format ref="b:basicByteBinary"/>
+    <dfdl:format ref="bb:basicByteBinary"/>
 
-    <xs:element name="root">
-      <xs:complexType>
-        <xs:sequence>
-          <xs:element name="Ethernet" type="eth:Ethernet"/>
-        </xs:sequence>
-      </xs:complexType>
-    </xs:element>
+    <element name="root">
+      <complexType>
+        <sequence>
+          <element name="Ethernet" type="eth:Ethernet"/>
+        </sequence>
+      </complexType>
+    </element>
 
-    <xs:element name="array">
-      <xs:complexType>
-        <xs:sequence>
-          <xs:element name="Ethernet" type="eth:Ethernet" minOccurs="1" maxOccurs="unbounded"/>
-        </xs:sequence>
-      </xs:complexType>
-    </xs:element>
+    <element name="array">
+      <complexType>
+        <sequence>
+          <element name="Ethernet" type="eth:Ethernet" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+      </complexType>
+    </element>
 
   </tdml:defineSchema>
 
@@ -42,20 +44,20 @@
   Separate unparser test shows that the IPv4 header is computing the checksum value
   because the infoset starts with 0.
   -->
-  <tdml:unparserTestCase name="icmp1u" root="root" model="s1" roundTrip="none">
-    <tdml:document>
-      <tdml:documentPart type="byte">
+  <unparserTestCase name="icmp1u" root="root" model="s1" roundTrip="none">
+    <document>
+      <documentPart type="byte">
         0050 56e0 1449 000c
         2934 0bde 0800 4500 003c d743 0000 8001
         2b73 c0a8 9e8b ae89 2a4d 0800 2a5c 0200
         2100 6162 6364 6566 6768 696a 6b6c 6d6e
         6f70 7172 7374 7576 7761 6263 6465 6667
         6869
-      </tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:root>
+      </documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:root xmlns="">
           <Ethernet>
             <MACDest>005056E01449</MACDest>
             <MACSrc>000C29340BDE</MACSrc>
@@ -93,27 +95,27 @@
             </NetworkLayer>
           </Ethernet>
         </ex:root>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-  </tdml:unparserTestCase>
+      </dfdlInfoset>
+    </infoset>
+  </unparserTestCase>
 
   <!--
   Separate parser test verifies checksum value.
   -->
-  <tdml:parserTestCase name="icmp1" root="root" model="s1" roundTrip="onePass">
-    <tdml:document>
-      <tdml:documentPart type="byte">
+  <parserTestCase name="icmp1" root="root" model="s1" roundTrip="onePass">
+    <document>
+      <documentPart type="byte">
         0050 56e0 1449 000c
         2934 0bde 0800 4500 003c d743 0000 8001
         2b73 c0a8 9e8b ae89 2a4d 0800 2a5c 0200
         2100 6162 6364 6566 6768 696a 6b6c 6d6e
         6f70 7172 7374 7576 7761 6263 6465 6667
         6869
-      </tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:root>
+      </documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:root xmlns="">
           <Ethernet>
             <MACDest>005056E01449</MACDest>
             <MACSrc>000C29340BDE</MACSrc>
@@ -151,16 +153,16 @@
             </NetworkLayer>
           </Ethernet>
         </ex:root>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-  </tdml:parserTestCase>
+      </dfdlInfoset>
+    </infoset>
+  </parserTestCase>
 
   <!--
 Unparse two IPv4 ICMP packets in a row.
 -->
-  <tdml:unparserTestCase name="icmp_array" root="array" model="s1" roundTrip="none">
-    <tdml:document>
-      <tdml:documentPart type="byte">
+  <unparserTestCase name="icmp_array" root="array" model="s1" roundTrip="none">
+    <document>
+      <documentPart type="byte">
         0050 56e0 1449 000c
         2934 0bde 0800 4500 003c d743 0000 8001
         2b73 c0a8 9e8b ae89 2a4d 0800 2a5c 0200
@@ -173,11 +175,11 @@ Unparse two IPv4 ICMP packets in a row.
         2100 6162 6364 6566 6768 696a 6b6c 6d6e
         6f70 7172 7374 7576 7761 6263 6465 6667
         6869
-      </tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:array>
+      </documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:array xmlns="">
           <Ethernet>
             <MACDest>005056E01449</MACDest>
             <MACSrc>000C29340BDE</MACSrc>
@@ -251,30 +253,30 @@ Unparse two IPv4 ICMP packets in a row.
             </NetworkLayer>
           </Ethernet>
         </ex:array>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-  </tdml:unparserTestCase>
+      </dfdlInfoset>
+    </infoset>
+  </unparserTestCase>
 
   <!--
   Separate parser test verifies stored checksum value is incorrect.
 
   Issues runtime warning about incorrect checksum.
   -->
-  <tdml:parserTestCase name="icmp2_bad_checksum" root="root" model="s1" roundTrip="none"
+  <parserTestCase name="icmp2_bad_checksum" root="root" model="s1" roundTrip="none"
     validation="limited">
-    <tdml:document>
-      <tdml:documentPart type="byte">
+    <document>
+      <documentPart type="byte">
         0050 56e0 1449 000c
         2934 0bde 0800 4500 003c d743 2000 8001
         2b73 c0a8 9e8b ae89 2a4d 0800 2a5c 0200
         2100 6162 6364 6566 6768 696a 6b6c 6d6e
         6f70 7172 7374 7576 7761 6263 6465 6667
         6869
-      </tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:root>
+      </documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:root xmlns="">
           <Ethernet>
             <MACDest>005056E01449</MACDest>
             <MACSrc>000C29340BDE</MACSrc>
@@ -312,16 +314,16 @@ Unparse two IPv4 ICMP packets in a row.
             </NetworkLayer>
           </Ethernet>
         </ex:root>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-    <tdml:validationErrors>
-      <tdml:error>Incorrect checksum</tdml:error>
-    </tdml:validationErrors>
-  </tdml:parserTestCase>
+      </dfdlInfoset>
+    </infoset>
+    <validationErrors>
+      <error>Incorrect checksum</error>
+    </validationErrors>
+  </parserTestCase>
 
-  <tdml:parserTestCase name="dns1" root="root" model="s1">
-    <tdml:document>
-      <tdml:documentPart type="byte"><![CDATA[
+  <parserTestCase name="dns1" root="root" model="s1">
+    <document>
+      <documentPart type="byte"><![CDATA[
                                              00
         6008 45e4 5500 12a9 0032 2308 0045 0000
         4500 0040 003a 11f8 a1d9 0d04 18c0 a8aa
@@ -329,11 +331,11 @@ Unparse two IPv4 ICMP packets in a row.
         0000 0000 0005 4752 494d 4d0b 7574 656c
         7379 7374 656d 7305 6c6f 6361 6c00 0001
         0001
-       ]]></tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:root>
+       ]]></documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:root xmlns="">
           <Ethernet>
             <MACDest>00600845E455</MACDest>
             <MACSrc>0012A9003223</MACSrc>
@@ -372,24 +374,24 @@ Unparse two IPv4 ICMP packets in a row.
             </NetworkLayer>
           </Ethernet>
         </ex:root>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-  </tdml:parserTestCase>
+      </dfdlInfoset>
+    </infoset>
+  </parserTestCase>
 
 
-  <tdml:parserTestCase name="http_ipv6_1" root="root" model="s1">
-    <tdml:document>
-      <tdml:documentPart type="byte"><![CDATA[
+  <parserTestCase name="http_ipv6_1" root="root" model="s1">
+    <document>
+      <documentPart type="byte"><![CDATA[
             00 1125 8295 b500 d009 e3e8 de86 dd60
           0000 0000 1406 4020 0106 f810 2d00 0002
           d009 fffe e3e8 de20 0106 f809 0007 c000
           0000 0000 0000 02e7 4100 50ab dcd7 5101
           4a7c 7350 112c c037 2300 00
-       ]]></tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:root>
+       ]]></documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:root xmlns="">
           <Ethernet>
             <MACDest>0011258295B5</MACDest>
             <MACSrc>00D009E3E8DE</MACSrc>
@@ -429,13 +431,13 @@ Unparse two IPv4 ICMP packets in a row.
             </NetworkLayer>
           </Ethernet>
         </ex:root>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-  </tdml:parserTestCase>
+      </dfdlInfoset>
+    </infoset>
+  </parserTestCase>
 
-  <tdml:parserTestCase name="tcp_ecn_1" root="root" model="s1">
-    <tdml:document>
-      <tdml:documentPart type="byte"><![CDATA[
+  <parserTestCase name="tcp_ecn_1" root="root" model="s1">
+    <document>
+      <documentPart type="byte"><![CDATA[
                                       c0
  0212 6800 00c0 0114 7c00 0108 0045 0300
  b202 3400 00fe 0695 0901 010c 0101 0117
@@ -449,11 +451,11 @@ Unparse two IPv4 ICMP packets in a row.
  6f20 6970 7365 6320 7361 202d 2d2d 2d2d
  2d2d 2d2d 2d2d 2d2d 2d2d 2d2d 2d0a 0a0a
  4e6f 2053 4173 2066 6f75 6e64 0a0a 0a
-       ]]></tdml:documentPart>
-    </tdml:document>
-    <tdml:infoset>
-      <tdml:dfdlInfoset>
-        <ex:root>
+       ]]></documentPart>
+    </document>
+    <infoset>
+      <dfdlInfoset>
+        <ex:root xmlns="">
           <Ethernet>
             <MACDest>C00212680000</MACDest>
             <MACSrc>C001147C0001</MACSrc>
@@ -499,9 +501,9 @@ Unparse two IPv4 ICMP packets in a row.
             </NetworkLayer>
           </Ethernet>
         </ex:root>
-      </tdml:dfdlInfoset>
-    </tdml:infoset>
-  </tdml:parserTestCase>
+      </dfdlInfoset>
+    </infoset>
+  </parserTestCase>
 
 
-</tdml:testSuite>
+</testSuite>

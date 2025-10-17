@@ -41,21 +41,21 @@ conventions useful for describing things like IP packets.
 -->
 
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
-           xmlns:fn="http://www.w3.org/2005/xpath-functions"
-           xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-           xmlns:b="urn:basicBinary"
-           xmlns:tns="urn:basicBinary"
-           targetNamespace="urn:basicBinary">
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+        xmlns:fn="http://www.w3.org/2005/xpath-functions"
+        xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+        xmlns:bb="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb"
+        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb">
 
-  <xs:include schemaLocation="org/apache/daffodil/xsd/DFDLGeneralFormat.dfdl.xsd"/>
+  <include schemaLocation="/org/apache/daffodil/xsd/DFDLGeneralFormat.dfdl.xsd"/>
 
-  <xs:annotation>
-    <xs:appinfo source="http://www.ogf.org/dfdl/">
+  <annotation>
+    <appinfo source="http://www.ogf.org/dfdl/">
 
       <dfdl:defineFormat name="basicByteBinary">
-        <dfdl:format ref="tns:GeneralFormat"
+        <dfdl:format ref="bb:GeneralFormat"
                      alignment="1"
                      alignmentUnits="bits"
                      binaryBooleanFalseRep="0"
@@ -69,31 +69,31 @@ conventions useful for describing things like IP packets.
                    />
       </dfdl:defineFormat>
 
-      <dfdl:format ref="b:basicByteBinary"/>
+      <dfdl:format ref="bb:basicByteBinary"/>
 
-    </xs:appinfo>
-  </xs:annotation>
+    </appinfo>
+  </annotation>
 
-  <xs:simpleType name="bit"
+  <simpleType name="bit"
                  dfdl:lengthKind="explicit"
                  dfdl:lengthUnits="bits">
-    <xs:restriction base="xs:unsignedInt" />
-  </xs:simpleType>
+    <restriction base="xs:unsignedInt" />
+  </simpleType>
 
-  <xs:simpleType name="hexByte" dfdl:lengthKind="explicit" dfdl:lengthUnits="bytes">
-    <xs:restriction base="xs:hexBinary" />
-  </xs:simpleType>
+  <simpleType name="hexByte" dfdl:lengthKind="explicit" dfdl:lengthUnits="bytes">
+    <restriction base="xs:hexBinary" />
+  </simpleType>
 
-  <xs:simpleType name="uint16" dfdl:lengthKind="explicit" dfdl:length="16">
-    <xs:restriction base="xs:unsignedInt"/>
-  </xs:simpleType>
+  <simpleType name="uint16" dfdl:lengthKind="explicit" dfdl:length="16">
+    <restriction base="xs:unsignedInt"/>
+  </simpleType>
 
-  <xs:simpleType name="uint32" dfdl:lengthKind="explicit" dfdl:length="32">
-    <xs:restriction base="xs:unsignedInt"/>
-  </xs:simpleType>
+  <simpleType name="uint32" dfdl:lengthKind="explicit" dfdl:length="32">
+    <restriction base="xs:unsignedInt"/>
+  </simpleType>
 
-  <xs:simpleType name="int32" dfdl:lengthKind="explicit" dfdl:length="4" dfdl:lengthUnits="bytes">
-    <xs:restriction base="xs:int"/>
-  </xs:simpleType>
+  <simpleType name="int32" dfdl:lengthKind="explicit" dfdl:length="4" dfdl:lengthUnits="bytes">
+    <restriction base="xs:int"/>
+  </simpleType>
 
-</xs:schema>
+</schema>
