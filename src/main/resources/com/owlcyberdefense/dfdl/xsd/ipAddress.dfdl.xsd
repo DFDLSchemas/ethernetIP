@@ -39,16 +39,15 @@ SOFTWARE.
         xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
         xmlns:fn="http://www.w3.org/2005/xpath-functions"
         xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-        xmlns:bb="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb"
-        xmlns:ipa="urn:owlcyberdefense.com:schema:dfdl:ipAddress:ipa"
-        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:ipAddress:ipa">
+        xmlns:eth="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
+        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth">
 
-  <import namespace="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb" schemaLocation="basicByteBinary.dfdl.xsd"/>
+  <include schemaLocation="basicByteBinary.dfdl.xsd"/>
 
   <annotation>
     <appinfo source="http://www.ogf.org/dfdl/">
 
-      <dfdl:format ref="bb:basicByteBinary"/>
+      <dfdl:format ref="eth:basicByteBinary"/>
 
     </appinfo>
   </annotation>
@@ -89,7 +88,7 @@ SOFTWARE.
       ]]></documentation>
     </annotation>
     <sequence>
-      <sequence dfdl:hiddenGroupRef="ipa:h_IPAddressGroup"/>
+      <sequence dfdl:hiddenGroupRef="eth:h_IPAddressGroup"/>
       <element name="value" type="xs:string"
                   dfdl:inputValueCalc="{ fn:concat(../Byte1, '.', ../Byte2, '.', ../Byte3, '.', ../Byte4) }"/>
     </sequence>
@@ -109,56 +108,56 @@ SOFTWARE.
     <sequence>
       <annotation>
         <appinfo source="http://www.ogf.org/dfdl/">
-          <dfdl:newVariableInstance ref="ipa:priorRemainingDottedAddr"
+          <dfdl:newVariableInstance ref="eth:priorRemainingDottedAddr"
                                     defaultValue='{ ./value }'/><!-- example 1.2.3.4 -->
-          <dfdl:newVariableInstance ref="ipa:remainingDottedAddr"
-                                    defaultValue='{ $ipa:priorRemainingDottedAddr }'/><!-- example 1.2.3.4 -->
+          <dfdl:newVariableInstance ref="eth:remainingDottedAddr"
+                                    defaultValue='{ $eth:priorRemainingDottedAddr }'/><!-- example 1.2.3.4 -->
         </appinfo>
       </annotation>
       <element name="Byte1" type="xs:unsignedByte" dfdl:outputValueCalc="{
-          xs:unsignedByte(fn:substring-before($ipa:remainingDottedAddr, '.'))
+          xs:unsignedByte(fn:substring-before($eth:remainingDottedAddr, '.'))
           }"/>
       <sequence>
         <annotation>
           <appinfo source="http://www.ogf.org/dfdl/">
             <dfdl:newVariableInstance
-              ref="ipa:priorRemainingDottedAddr"
-              defaultValue='{ $ipa:remainingDottedAddr }'/><!-- example 1.2.3.4 -->
+              ref="eth:priorRemainingDottedAddr"
+              defaultValue='{ $eth:remainingDottedAddr }'/><!-- example 1.2.3.4 -->
             <dfdl:newVariableInstance
-              ref="ipa:remainingDottedAddr"
-              defaultValue='{ fn:substring-after($ipa:priorRemainingDottedAddr, ".") }'/><!-- example 2.3.4 -->
+              ref="eth:remainingDottedAddr"
+              defaultValue='{ fn:substring-after($eth:priorRemainingDottedAddr, ".") }'/><!-- example 2.3.4 -->
           </appinfo>
         </annotation>
         <element name="Byte2" type="xs:unsignedByte" dfdl:outputValueCalc="{
-           xs:unsignedByte(fn:substring-before($ipa:remainingDottedAddr, '.'))
+           xs:unsignedByte(fn:substring-before($eth:remainingDottedAddr, '.'))
            }"/>
         <sequence>
           <annotation>
             <appinfo source="http://www.ogf.org/dfdl/">
               <dfdl:newVariableInstance
-                ref="ipa:priorRemainingDottedAddr"
-                defaultValue='{ $ipa:remainingDottedAddr }'/><!-- example 2.3.4 -->
+                ref="eth:priorRemainingDottedAddr"
+                defaultValue='{ $eth:remainingDottedAddr }'/><!-- example 2.3.4 -->
               <dfdl:newVariableInstance
-                ref="ipa:remainingDottedAddr"
-                defaultValue='{ fn:substring-after($ipa:priorRemainingDottedAddr, ".") }'/><!-- example 3.4 -->
+                ref="eth:remainingDottedAddr"
+                defaultValue='{ fn:substring-after($eth:priorRemainingDottedAddr, ".") }'/><!-- example 3.4 -->
             </appinfo>
           </annotation>
           <element name="Byte3" type="xs:unsignedByte" dfdl:outputValueCalc="{
-              xs:unsignedByte(fn:substring-before($ipa:remainingDottedAddr, '.'))
+              xs:unsignedByte(fn:substring-before($eth:remainingDottedAddr, '.'))
               }"/>
           <sequence>
             <annotation>
               <appinfo source="http://www.ogf.org/dfdl/">
                 <dfdl:newVariableInstance
-                  ref="ipa:priorRemainingDottedAddr"
-                  defaultValue='{ $ipa:remainingDottedAddr }'/><!-- example 3.4 -->
+                  ref="eth:priorRemainingDottedAddr"
+                  defaultValue='{ $eth:remainingDottedAddr }'/><!-- example 3.4 -->
                 <dfdl:newVariableInstance
-                  ref="ipa:remainingDottedAddr"
-                  defaultValue='{ fn:substring-after($ipa:priorRemainingDottedAddr, ".") }'/><!-- example 4 -->
+                  ref="eth:remainingDottedAddr"
+                  defaultValue='{ fn:substring-after($eth:priorRemainingDottedAddr, ".") }'/><!-- example 4 -->
               </appinfo>
             </annotation>
             <element name="Byte4" type="xs:unsignedByte" dfdl:outputValueCalc="{
-              xs:unsignedByte($ipa:remainingDottedAddr)
+              xs:unsignedByte($eth:remainingDottedAddr)
               }"/>
           </sequence>
         </sequence>

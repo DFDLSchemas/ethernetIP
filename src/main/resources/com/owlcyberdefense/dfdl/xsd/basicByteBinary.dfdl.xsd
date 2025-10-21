@@ -46,8 +46,8 @@ conventions useful for describing things like IP packets.
         xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
         xmlns:fn="http://www.w3.org/2005/xpath-functions"
         xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-        xmlns:bb="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb"
-        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb">
+        xmlns:eth="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
+        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth">
 
   <include schemaLocation="/org/apache/daffodil/xsd/DFDLGeneralFormat.dfdl.xsd"/>
 
@@ -55,7 +55,7 @@ conventions useful for describing things like IP packets.
     <appinfo source="http://www.ogf.org/dfdl/">
 
       <dfdl:defineFormat name="basicByteBinary">
-        <dfdl:format ref="bb:GeneralFormat"
+        <dfdl:format ref="eth:GeneralFormat"
                      alignment="1"
                      alignmentUnits="bits"
                      binaryBooleanFalseRep="0"
@@ -69,7 +69,7 @@ conventions useful for describing things like IP packets.
                    />
       </dfdl:defineFormat>
 
-      <dfdl:format ref="bb:basicByteBinary"/>
+      <dfdl:format ref="eth:basicByteBinary"/>
 
     </appinfo>
   </annotation>
