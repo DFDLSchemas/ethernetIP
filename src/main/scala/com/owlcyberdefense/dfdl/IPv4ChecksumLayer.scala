@@ -36,7 +36,7 @@ import scala.collection.JavaConverters._
  * the data stream it is a processing error.
  */
 final class IPv4ChecksumLayer
-  extends ChecksumLayer("IPv4Checksum", "urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4") {
+  extends ChecksumLayer("IPv4Checksum", "urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4cs") {
 
   private def layerFixedLengthInBytes = 20
 

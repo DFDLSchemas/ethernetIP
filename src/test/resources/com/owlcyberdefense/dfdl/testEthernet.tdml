@@ -6,7 +6,6 @@
            xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
            xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
            xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-           xmlns:bb="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb"
            xmlns:eth="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
            xmlns:ex="http://example.com"
            defaultRoundTrip="true">
@@ -15,12 +14,10 @@
   <tdml:defineSchema name="s1" elementFormDefault="unqualified" useDefaultNamespace="false"
                      xmlns="http://www.w3.org/2001/XMLSchema">
 
-    <import namespace="urn:owlcyberdefense.com:schema:dfdl:basicBinary:bb" schemaLocation="/com/owlcyberdefense/dfdl/xsd/basicByteBinary.dfdl.xsd"/>
-
     <import namespace="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
                schemaLocation="/com/owlcyberdefense/dfdl/xsd/ethernetIP.dfdl.xsd"/>
 
-    <dfdl:format ref="bb:basicByteBinary"/>
+    <dfdl:format ref="eth:basicByteBinary"/>
 
     <element name="root">
       <complexType>
