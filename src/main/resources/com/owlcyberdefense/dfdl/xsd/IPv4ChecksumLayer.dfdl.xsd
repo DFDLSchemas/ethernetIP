@@ -21,8 +21,8 @@
         xmlns:dfdlx="http://www.ogf.org/dfdl/dfdl-1.0/extensions"
         xmlns:fn="http://www.w3.org/2005/xpath-functions"
         xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
-        xmlns:ipv4="urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4"
-        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4">
+        xmlns:ipv4cs="urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4cs"
+        targetNamespace="urn:owlcyberdefense.com:schema:dfdl:IPv4Checksum:ipv4cs">
 
   <annotation>
     <documentation>
@@ -37,7 +37,7 @@
     <appinfo source="http://www.ogf.org/dfdl/">
       <dfdl:defineVariable name="IPv4Checksum" type="xs:unsignedShort"/>
       <dfdl:defineFormat name="IPv4ChecksumLayer">
-        <dfdl:format dfdlx:layer='ipv4:IPv4Checksum' />
+        <dfdl:format dfdlx:layer='ipv4cs:IPv4Checksum' />
       </dfdl:defineFormat>
     </appinfo>
   </annotation>

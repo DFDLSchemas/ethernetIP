@@ -3,8 +3,8 @@ Ethernet, IP, TCP, UDP, ICMP, DNS
 
 DFDL Schemas for Ethernet and IP
 
-It works with Daffodil (from Daffodil version 3.2.0), 
-but not with IBM DFDL (as of 2021-06-08) as the latter does not yet support
+It works with Daffodil (starting from Daffodil version 3.2.0), 
+but not with IBM DFDL (as of 2025-10-21) as the latter does not yet support
 the dfdl:inputValueCalc, dfdl:outputValueCalc, 
 dfdl:hiddenGroupRef, dfdl:valueLength(), dfdl:contentLength(),
 and dfdl:newVariableInstance DFDL capabilities.
@@ -13,13 +13,45 @@ As of version 1.1.0 of this DFDL schema, it also uses a Daffodil-specific DFDL e
 to compute IPv4 checksums as part of parsing and unparsing. 
 
 This schema was created based on the corresponding DFDL types in the PCAP schema, which has been refactored
-to use this schema as a dependency.
+to use this schema as a component dependency.
 
-This division into two schemas is intended to illustrate how to structure DFDL schemas as separate DFDL 
-schemas that are combined together to form a complete format, and which involve layering where a 
-container/envelope/header structure, contains a payload structure. PCAP is an container format for Ethernet/IP packets. 
+This division into two schemas is intended to illustrate how to structure DFDL schemas as 
+separate DFDL component
+schemas that are assembled together to form a complete format, and which involve layering where a 
+container/envelope/header structure, contains a payload structure. PCAP is a container format for Ethernet/IP packets. 
+
+## Usage
+
+The main schema file is `ethernetIP`. It defines the `Ethernet` complex type in the
+target namespace. Assuming version 1.5.0 of this schema, using this type requires this namespace 
+prefix definition:
+
+        xmlns:eth="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
+
+and this import and default format top level annotation:
+
+    <import namespace="urn:owlcyberdefense.com:schema:dfdl:ethernet:eth"
+               schemaLocation="/com/owlcyberdefense/dfdl/xsd/ethernetIP.dfdl.xsd"/>
+
+    <annotation>
+      <appinfo source="http://www.ogf.org/dfdl/">
+        <dfdl:format ref="eth:basicByteBinary"/> 
+      </appinfo>
+    </annotation>
+
+after which an element can be defined that contains an ethernet packet as:
+
+    <element name="ethernet" type="eth:Ethernet"/>
+
 
 ## Release Notes
+
+### 1.5.0
+
+Namespace URI for PCAP now updated to `urn:owlcyberdefense.com:schema:dfdl:ethernet:eth`,
+following the DFDL Schema Style Guide. 
+
+Other internal namespaces for bb, ipa, removed.
 
 ### 1.4.2
 
