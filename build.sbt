@@ -1,11 +1,11 @@
-name := "dfdl-ethernetIP"
+val root = (project in file("."))
+  .settings(
+    name := "dfdl-ethernetIP",
 
-organization := "com.owlcyberdefense"
+    organization := "com.owlcyberdefense",
 
-version := "1.5.0"
+    version := "1.5.0",
 
-daffodilVersion := "4.0.0"
-
-enablePlugins(DaffodilPlugin)
-
-daffodilBuildsLayer := true
+    daffodilBuildsLayer := true
+  )
+  .daffodilProject(crossDaffodilVersions = Seq("4.0.0"))
